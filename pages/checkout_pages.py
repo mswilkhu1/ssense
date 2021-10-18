@@ -9,6 +9,23 @@ class CheckoutPages:
         global driver
         driver = obj
 
+    def assert_product_info(self, product, price):
+        item_name = driver.find_element(By.XPATH, conf_reader.fetch_checkout_pages_elements_locators('CheckoutPages', 'inventory_item_name'))
+        # Asserting product name, price and quantity
+        assert item_name.text == product
+
+        item_price = driver.find_element(By.XPATH, conf_reader.fetch_checkout_pages_elements_locators('CheckoutPages', 'inventory_item_price')).text
+        if not price in item_price:
+            raise AssertionError()
+
+        cart_quantity = driver.find_element(By.XPATH, conf_reader.fetch_checkout_pages_elements_locators('CheckoutPages', 'cart_quantity')).text
+        assert cart_quantity == "1"
+
+    def assert_total(self, price):
+        item_price = driver.find_element(By.XPATH, conf_reader.fetch_checkout_pages_elements_locators('CheckoutPages', 'subtotal')).text
+        if not price in item_price:
+            raise AssertionError()
+
     def click_checkout_button(self):
         checkout_button = driver.find_element(By.XPATH, conf_reader.fetch_checkout_pages_elements_locators('CheckoutPages', 'checkout_button'))
         checkout_button.click()

@@ -5,10 +5,10 @@ Feature: User is able to order product online and see confirmation
     Given user is logged in on SwagLabs
     When  user add to cart this <product> with <price>
     And   user navigates to cart
-    And   clicks on checkout button
+    And   clicks on checkout button <product> <price>
     And   enter checkout information
     And   click continue
-    And   click finish
+    And   click finish <product> <price>
     Then  confirmation should be displayed <price>
     Examples:
       | product                        | price |
