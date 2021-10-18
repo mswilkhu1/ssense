@@ -16,7 +16,7 @@ def browser():
 
 
 @scenario("../features/product_checkout.feature", 'Ordering product on SwagLabs and getting confirmation')
-def test_ordering_product_on_swaglabs_and_getting_confirmatoin(browser):
+def test_ordering_product_on_swaglabs_and_getting_confirmation(browser):
     """Ordering product on SwagLabs and getting confirmation"""
 
 
@@ -35,9 +35,10 @@ def user_navigates_to_cart():
     footwear = home_page.HomePage(driver)
     footwear.shopping_cart_navigate()
 
-@when('clicks on checkout button')
-def clicks_on_checkout_button():
+@when('clicks on checkout button <product> <price>')
+def clicks_on_checkout_button_product_price(product, price):
     checkout = checkout_pages.CheckoutPages(driver)
+    checkout.assert_product_info(product, price)
     checkout.click_checkout_button()
 
 @when('enter checkout information')
@@ -50,9 +51,11 @@ def click_continue():
     continue_button = checkout_pages.CheckoutPages(driver)
     continue_button.click_continue()
 
-@when('click finish')
-def click_finish():
+@when('click finish <product> <price>')
+def click_finish(product, price):
     finish_button = checkout_pages.CheckoutPages(driver)
+    finish_button.assert_product_info(product, price)
+    finish_button.assert_total(price)
     finish_button.click_finish()
 
 @then('confirmation should be displayed <price>')
